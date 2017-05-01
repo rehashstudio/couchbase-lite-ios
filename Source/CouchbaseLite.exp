@@ -37,6 +37,7 @@ _OBJC_CLASS_$_CBLUITableSource
 _CBLHTTPErrorDomain
 _kCBLDatabaseChangeNotification
 _kCBLDocumentChangeNotification
+_kCBLReplicationAddedDocsNotification
 _kCBLReplicationChangeNotification
 _kCBLSQLiteStorage
 _kCBLForestDBStorage

@@ -695,7 +695,9 @@
     CFAbsoluteTime time = CFAbsoluteTimeGetCurrent();
         
     downloads = [downloads sortedArrayUsingSelector: @selector(compareSequences:)];
-    [_db.storage inTransaction: ^CBLStatus {
+    
+    CBLDatabase* strongDb = _db;
+    [strongDb.storage inTransaction: ^CBLStatus {
         for (CBL_Revision* rev in downloads) {
             @autoreleasepool {
                 SequenceNumber fakeSequence = rev.sequence;
@@ -714,7 +716,7 @@
 
                 // Insert the revision:
                 NSError* error;
-                int status = [_db forceInsert: rev revisionHistory: history
+                int status = [strongDb forceInsert: rev revisionHistory: history
                                        source: _settings.remote
                                         error: &error];
                 if (CBLStatusIsError(status)) {
@@ -741,6 +743,15 @@
                 [_pendingSequences removeSequence: fakeSequence];
             }
         }
+        
+        NSNotification* n = [NSNotification notificationWithName: CBL_ReplicatorAddedDocs
+                                                          object: self
+                                                        userInfo:@{@"downloads": downloads}];
+        [[NSNotificationQueue defaultQueue] enqueueNotification: n
+                                                   postingStyle: NSPostASAP
+                                                   coalesceMask: NSNotificationCoalescingOnSender |
+         NSNotificationCoalescingOnName
+                                                       forModes: nil];
         
         LogVerbose(Sync, @"%@ finished inserting %u revisions",
               self, (unsigned)downloads.count);

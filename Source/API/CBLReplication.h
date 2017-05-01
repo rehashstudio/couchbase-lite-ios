@@ -228,6 +228,7 @@ typedef void (^CBLAttachmentProgressBlock)(uint64_t bytesRead,
     {status, running, error, completed, total}. It's often more convenient to observe this
     notification rather than observing each property individually. */
 extern NSString* const kCBLReplicationChangeNotification;
+extern NSString* const kCBLReplicationAddedDocsNotification;
 
 /** NSProgress userInfo key used to report an NSError when an attachment download fails. */
 extern NSString* const kCBLProgressErrorKey;

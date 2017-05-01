@@ -34,11 +34,14 @@ typedef void (^PendingAction)(id<CBL_Replicator>);
 
 NSString* const kCBLReplicationChangeNotification = @"CBLReplicationChange";
 NSString* const kCBLProgressErrorKey = kCBLProgressError;
+NSString* const kCBLReplicationAddedDocsNotification = @"CBLAddedDocs";
 
 
 // Declared in CBL_Replicator.h
 NSString* CBL_ReplicatorProgressChangedNotification = @"CBL_ReplicatorProgressChanged";
 NSString* CBL_ReplicatorStoppedNotification = @"CBL_ReplicatorStopped";
+NSString* CBL_ReplicatorAddedDocs = @"CBL_ReplicatorAddedDocs";
+
 
 
 #define kByChannelFilterName @"sync_gateway/bychannel"
@@ -615,6 +618,10 @@ NSString* CBL_ReplicatorStoppedNotification = @"CBL_ReplicatorStopped";
                                                  selector: @selector(bg_replicationProgressChanged:)
                                                      name: CBL_ReplicatorProgressChangedNotification
                                                    object: _bg_replicator];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(bg_replicationAddedDocs:)
+                                                     name:CBL_ReplicatorAddedDocs
+                                                   object:_bg_replicator];
     }
 }
 
@@ -681,6 +688,38 @@ NSString* CBL_ReplicatorStoppedNotification = @"CBL_ReplicatorStopped";
     else
         Warn(@"%@: Received replication change notification from "
              "an unexpected replicator %@ (expected %@)", self, n.object, _bg_replicator);
+}
+
+- (void) bg_replicationAddedDocs: (NSNotification*)n {
+    __weak CBLReplication *weakSelf = self;
+    [_database.manager doAsync:^{
+        CBLReplication *strongSelf = weakSelf;
+        
+        NSArray* downloads = [n.userInfo objectForKey:@"downloads"];
+        if (downloads != nil) {
+            NSMutableArray* addedDocs = [NSMutableArray arrayWithCapacity:downloads.count];
+            
+            for (CBL_Revision* rev in downloads) {
+                NSDictionary* properties = rev.body.properties;
+
+                if (rev.docID.length > 0 && rev.deleted) {
+                    [addedDocs addObject:@{@"_id": rev.docID, @"_deleted": @true}];
+                } else if (properties) {
+                    [addedDocs addObject:properties];
+                }
+            }
+            
+            if (addedDocs.count > 0) {
+                [[NSNotificationCenter defaultCenter]
+                 postNotificationName: kCBLReplicationAddedDocsNotification
+                 object: strongSelf
+                 userInfo:@{
+                            @"downloads": addedDocs
+                            }];
+            }
+        }
+    }];
+
 }
 
 

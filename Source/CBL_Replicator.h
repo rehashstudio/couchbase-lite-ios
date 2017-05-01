@@ -37,6 +37,9 @@ extern NSString* CBL_ReplicatorProgressChangedNotification;
 extern NSString* CBL_ReplicatorStoppedNotification;
 
 
+extern NSString* CBL_ReplicatorAddedDocs;
+
+
 
 /** Protocol that replicator implementations must implement. */
 @protocol CBL_Replicator <NSObject>

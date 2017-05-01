@@ -33,6 +33,12 @@ typedef BOOL (^CBLFilterBlock) (CBLSavedRevision* revision, NSDictionary* __null
 - (CBLFilterBlock) compileFilterFunction: (NSString*)filterSource language: (NSString*)language;
 @end
 
+@protocol CBLIncrementalUpdatesWatcher
+
+- (void) onNewRevisions:(NSArray*)newRevisions;
+
+@end
+
 
 /** A CouchbaseLite database. */
 @interface CBLDatabase : NSObject
@@ -57,6 +63,8 @@ typedef BOOL (^CBLFilterBlock) (CBLSavedRevision* revision, NSDictionary* __null
     but it isn't available outside the process.
     This method is only available if you've linked with the CouchbaseLiteListener framework. */
 @property (readonly) NSURL* internalURL;
+
+@property (weak) id<CBLIncrementalUpdatesWatcher> updatesWatcher;
 
 
 #pragma mark - HOUSEKEEPING:

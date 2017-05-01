@@ -58,6 +58,7 @@ static id<CBLFilterCompiler> sFilterCompiler;
 @synthesize manager=_manager, unsavedModelsMutable=_unsavedModelsMutable;
 @synthesize dir=_dir, name=_name, isOpen=_isOpen;
 
+@synthesize updatesWatcher;
 
 - (instancetype) initWithDir: (NSString*)dir
                         name: (NSString*)name
