@@ -7,7 +7,7 @@
 //
 
 #import <CouchbaseLite/CBLAuthenticator.h>
-#import "CBLStatus.h"
+#import <CouchbaseLite/CBLStatus.h>
 #import <Security/SecBase.h>
 
 

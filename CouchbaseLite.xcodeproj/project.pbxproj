@@ -966,6 +966,8 @@
 		27FAEF0F164C8ADB00A3C0C2 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 27FAEF0C164C8ADB00A3C0C2 /* icon.png */; };
 		27FAEF10164C8ADB00A3C0C2 /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27FAEF0D164C8ADB00A3C0C2 /* icon@2x.png */; };
 		27FAEF11164C8ADB00A3C0C2 /* icon~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 27FAEF0E164C8ADB00A3C0C2 /* icon~ipad.png */; };
+		9139F9D31EBACBEE00E9C13B /* CBLAuthorizer.h in Headers */ = {isa = PBXBuildFile; fileRef = 270F5703156AE0BF000FEB8F /* CBLAuthorizer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9139F9FC1EBACDA600E9C13B /* CBLStatus.h in Headers */ = {isa = PBXBuildFile; fileRef = 274F9807152E6E0C00247C46 /* CBLStatus.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		930FE5721C5856E1008107A0 /* CBLRegisterJSViewCompiler.m in Sources */ = {isa = PBXBuildFile; fileRef = 93EBA2651B2EC61E0006C66C /* CBLRegisterJSViewCompiler.m */; };
 		930FE5731C58571E008107A0 /* CBLJSFunction.m in Sources */ = {isa = PBXBuildFile; fileRef = 792867CC178DE03E00248AF0 /* CBLJSFunction.m */; };
 		930FE5741C58573F008107A0 /* CBLJSViewCompiler.m in Sources */ = {isa = PBXBuildFile; fileRef = 792867CF178DE03E00248AF0 /* CBLJSViewCompiler.m */; };
@@ -3866,6 +3868,8 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9139F9D31EBACBEE00E9C13B /* CBLAuthorizer.h in Headers */,
+				9139F9FC1EBACDA600E9C13B /* CBLStatus.h in Headers */,
 				27452BD41AB1187E00327776 /* CouchbaseLite.h in Headers */,
 				27452BD51AB1187E00327776 /* CBLManager.h in Headers */,
 				27452BD61AB1187E00327776 /* CBLDatabase.h in Headers */,
